@@ -1,19 +1,27 @@
 # Personas
 
-> Identifique as principais personas e descreva suas atividades, respondendo às seguintes perguntas:
-> qual é o perfil de cada persona? O que elas esperam do produto de software?
+Através de pesquisas de campo dentro do público alvo do projeto, foram estipuladas as personas que seguem juntamente de suas histórias de usuário, dando origem aos requisitos funcionais e não funcionais da aplicação.
 
-## Persona 1: Ana, a Designer Freelancer
+## Personas
 
-- **Perfil:** Ana é uma designer gráfica freelancer com vasta experiência em branding e identidade visual. Ela trabalha de forma independente e gerencia vários projetos simultaneamente.
-- **Expectativas:** Ana espera que o produto de software seja uma solução completa para o gerenciamento de suas tarefas e tempo. Ela deseja uma interface intuitiva que facilite o registro, atualização e remoção de tarefas, além de uma funcionalidade de cronometragem baseada na técnica de pomodoro para melhorar sua concentração e produtividade. Ela também espera que o software permita priorizar suas atividades com base no método de Eisenhower e ofereça a integração com o Google Calendar para uma melhor organização de suas atividades diárias.
+### Nayara de Carvalho
 
-- **Atividades:** Ana utiliza o software para criar e monitorar suas tarefas em diferentes projetos, utiliza a técnica de pomodoro para manter o foco e evitar distrações, prioriza suas atividades com base na importância e urgência, e integra o calendário do Google para melhorar sua programação e cumprir prazos.
+<img src="img/personas/Imagem1.png" width = "150px">
 
-## Persona 2: Carlos, o Cliente Empreendedor
+| PERFIL                                                                                                                                                                                   | EXPECTATIVAS                                                                                                                                 | ATIVIDADES                                                                                                                                                                                                                                                                                                                                 |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Formada em Arquitetura, trabalha como projetista em uma construtora que atende todo o território nacional. Tem facilidade com o uso de tecnologia principalmente em dispositivos mobile. | Ela espera por uma plataforma digital na qual possa gerenciar seus treinos de forma simples e eficaz, podendo alterá-los a qualquer momento. | Ela tem uma rotina agitada e pouco tempo para se dedicar as atividades físicas. A prática de exercícios físicos é uma forma de prazer e descontração, seu maior objetivo é ficar em forma e saudável principalmente a longo prazo. Além disso, não se dá bem com instrutores das academias e personais, prefere treinar por conta própria. |
 
-- **Perfil:** Carlos é um empreendedor e dono de uma agência de marketing digital. Ele frequentemente contrata freelancers para desenvolver campanhas e projetos específicos para seus clientes.
-- **Expectativas:** Carlos espera que o produto de software ofereça transparência e precisão no registro do tempo gasto pelos freelancers em cada tarefa e projeto. Ele deseja receber relatórios detalhados sobre o progresso dos trabalhos contratados, para tomar decisões informadas e garantir a eficiência da equipe freelancer.
-- **Atividades:** Carlos utiliza a plataforma para monitorar os relatórios de tempo e custo fornecidos pelos freelancers contratados, utiliza as informações para validar o trabalho realizado e fazer pagamentos precisos, e realiza avaliações de desempenho com base nas métricas apresentadas pelo software. Ele também usa os dados para tomar decisões estratégicas sobre a alocação de recursos em projetos futuros.
+---
+
+### Rafael Mendes
+
+<img src="img/personas/Imagem2.png" width = "150px">
+
+| PERFIL                                                                                                           | EXPECTATIVAS                                                                                                                                      | ATIVIDADES                                                                                                                                                                                                                                                                           |
+| ---------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Formado em Administração, trabalha em um escritório de gestão comercial. Tem facilidade com o uso de tecnologia. | Gerenciar seus próprios treinos de forma simples e rápida, podendo cadastrá-los com nomes personalizados para experimentar no decorrer da semana. | Rafael é curioso e apaixonado pela Ed. Física, gosta de se aventurar e experimentar diferentes combinações de treinos, seja por pesquisas ou indicações de colegas da academia. São muitas as sugestões que ele encontra, e fica dificil gerenciar tudo sem uma ferramenta para tal. |
+
+---
 
 [Retorna](../README.md)
