@@ -1,26 +1,51 @@
 # Trade-offs de Características de Qualidade
 
-As categorias de requisitos não-funcionais para o produto de software "FocusFlow", conforme o modelo FURPS+, seriam:
-
 1. **Usabilidade**: 
    
-   a. O sistema deve ser fácil de usar com uma interface intuitiva e amigável, permitindo que 90% dos usuários realizem tarefas sem precisar de assistência após uma única sessão de treinamento.
+**Acessibilidade para usuários com deficiências - MÉDIA**
+Categoria: Usabilidade
+Análise: A Usabilidade é a categoria mais importante na matriz. Mesmo com prioridade média, a acessibilidade deve ser fortemente considerada para garantir uma experiência inclusiva e positiva para todos os usuários.
 
 2. **Desempenho**: 
    
-   a. O sistema deve ser altamente responsivo às ações do usuário, garantindo que o tempo de resposta para qualquer interação não ultrapasse 2 segundos, independentemente do número de tarefas que está sendo gerenciado.
+**Aplicação deve ser responsiva (tempo de resposta ≤ 2s) - MÉDIA**
+ Categoria: Desempenho
+ Análise: Este requisito é de importância média, mas, considerando a matriz de importância, Desempenho é menos importante que Confiabilidade, mas mais importante que Suportabilidade. Assim, devemos garantir a responsividade, mas podemos comprometer um pouco caso a Confiabilidade ou Suportabilidade demandem mais prioridade.
 
-   b. O sistema deve possuir escalabilidade horizontal através do desacoplamento, alcançada pela implementação de APIs RESTful.
+**Escalabilidade para lidar com aumento de usuários e dados - ALTA**
+ Categoria: Desempenho/Confiabilidade
+ Análise: Este requisito é crucial, principalmente quando ligado à Confiabilidade e Desempenho. Embora a matriz considere Desempenho menos importante que Confiabilidade, este aspecto deve ser bem equilibrado, já que a escalabilidade afeta diretamente ambos.
 
 3. **Confiabilidade**: 
    
-   a. O sistema deve ser robusto e livre de erros, sendo equipado com mecanismos para enfrentar falhas, garantir a recuperação de dados e assegurar uma disponibilidade de 99,9%, o que significa que ele não deve exceder 8,76 horas de inatividade por ano.
-   
-   b. O sistema deve requerer a autenticação de usuários para acessar suas tarefas e configurações pessoais, suportando um mecanismo robusto, como autenticação de dois fatores, para garantir acesso seguro às informações. Em relação à segurança, após três tentativas de login falhas, o usuário é bloqueado temporariamente para evitar tentativas de força bruta. Além disso, as senhas são armazenadas com segurança usando técnicas de hash e sal.
+**Disponibilidade online 99% do tempo - MÉDIA**
+Categoria: Confiabilidade
+Análise: Embora tenha uma prioridade média, a Confiabilidade, segundo a matriz, é mais importante que Desempenho e Suportabilidade. Portanto, este requisito deve ser mantido como crítico, pois a Confiabilidade é essencial para a experiência do usuário. 
 
-4. **Suportabilidade**: 
+**Conformidade com regulamentos de privacidade de dados (LGPD) - ALTA**
+Categoria: Confiabilidade (Segurança)
+Análise: Este requisito é de alta importância e está diretamente relacionado à Confiabilidade, que é considerada mais importante que Desempenho e Suportabilidade. Deve ser priorizado para garantir a segurança e a confiança dos usuários.   
+
+
+4. *** Suportabilidade**:
    
-   a. O sistema deve ser projetado de forma a facilitar futuras atualizações e manutenção, garantindo que todas as solicitações de suporte sejam respondidas dentro de 24 horas.
+ **Facilidade de manutenção e atualização (código limpo e modular) - ALTA**
+ Categoria: Suportabilidade
+ Análise: Apesar da Suportabilidade ser a menos importante na matriz, este requisito tem uma prioridade alta. É fundamental para garantir que o sistema possa evoluir e ser mantido de forma eficiente, mas pode ser balanceado contra requisitos de Confiabilidade e Usabilidade.  
+
+**Conclusão do Trade-off:**
+    1. Prioridade Alta:
+       Conformidade com LGPD (Confiabilidade)
+        Escalabilidade (Desempenho/Confiabilidade)
+        Facilidade de manutenção e atualização (Suportabilidade)
+     2. Prioridade Média, mas ainda Crítica:
+        Responsividade (Desempenho)
+        Disponibilidade online (Confiabilidade)
+        Acessibilidade (Usabilidade)
+
+**Decisões:**
+Usabilidade e Confiabilidade devem guiar as decisões de design e implementação, assegurando que a aplicação seja acessível e segura.
+Desempenho e Suportabilidade devem ser equilibrados, garantindo responsividade e escalabilidade sem comprometer a facilidade de manutenção.
 
 A importância relativa de cada categoria:
 
@@ -31,6 +56,6 @@ A importância relativa de cada categoria:
 | Confiabilidade | < | > | - | > |
 | Suportabilidade | < | < | < | - |
 
-> Nesta matriz, o sinal ">" indica que a categoria da linha é mais importante que a categoria da coluna, e o sinal "<" indica que a categoria da linha é menos importante que a categoria da coluna. Por exemplo, a Usabilidade é considerada mais importante que o Desempenho, Confiabilidade e Suportabilidade, enquanto o Desempenho é considerado mais importante que a Suportabilidade, mas menos importante que a Usabilidade e Confiabilidade, e assim por diante.
+
 
 [Retorna](../README.md)
