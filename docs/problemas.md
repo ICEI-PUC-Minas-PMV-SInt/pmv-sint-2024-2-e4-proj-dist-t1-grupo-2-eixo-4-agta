@@ -6,7 +6,7 @@
 
 1. Dificuldade de escolher uma rotina de treinos compatível com o objetivo desejado (perder peso, ganhar massa ou melhorar o condicionamento físico).
 2. Impossibilidade de pagar por um personal trainer.
-3. Muitas não se sentem à vontade com os instrutores da academia.
+3. Muitas pessoas não se sentem à vontade com os instrutores da academia.
 4. Aparecimento de lesões causadas pela prática irregular de exercícios, sobrecarga de estímulos ou até mesmo treinos prolongados.
 5. Dificuldade de manter o foco e não perder o ritmo.
 6. Dificuldade de alcançar os resultados desejados.
