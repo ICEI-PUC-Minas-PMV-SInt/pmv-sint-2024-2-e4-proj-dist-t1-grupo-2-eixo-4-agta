@@ -8,7 +8,7 @@ namespace shape_app.Models
         {    
         }
 
-        DbSet<Exercicio> Exercicios { get; set; }
+        public DbSet<Exercicio> Exercicios { get; set; }
 
     }
 }
