@@ -35,6 +35,16 @@ namespace shape_app.Controllers
             _context.Exercicios.Add(model);
             await _context.SaveChangesAsync();
 
+            return CreatedAtAction("GetById", new {id = model.Id}, model);
+        }
+        [HttpGet("{id}")]
+        public async Task<ActionResult> GetById(int id)
+        {
+            var model = await _context.Exercicios
+                .FirstOrDefaultAsync(c => c.Id == id);
+
+            if (model == null) NotFound();
+
             return Ok(model);
         }
     }
