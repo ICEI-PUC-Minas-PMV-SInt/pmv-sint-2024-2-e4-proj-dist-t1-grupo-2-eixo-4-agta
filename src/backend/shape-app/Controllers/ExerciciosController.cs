@@ -47,5 +47,22 @@ namespace shape_app.Controllers
 
             return Ok(model);
         }
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> Delete(int id)
+        {
+            var model = await _context.Exercicios
+                .FirstOrDefaultAsync(c => c.Id == id);
+
+            if (model == null) { 
+                NotFound();
+                return Ok("Exercício não encontrado");
+            };
+
+            _context.Exercicios.Remove(model);
+            await _context.SaveChangesAsync();
+
+            return Ok("Exercício excluído com sucesso");
+        }
+
     }
 }
