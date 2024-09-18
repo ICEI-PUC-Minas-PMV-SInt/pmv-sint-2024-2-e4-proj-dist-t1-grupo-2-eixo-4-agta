@@ -47,6 +47,23 @@ namespace shape_app.Controllers
 
             return Ok(model);
         }
+        [HttpPut("{id}")]
+        public async Task<ActionResult> Update(int id, Exercicio model)
+        {
+            if (id != model.Id) return BadRequest();
+
+            var modeloDb = _context.Exercicios
+                .FirstOrDefaultAsync(c => c.Id == id);
+
+            if (modeloDb == null) return NotFound();
+
+            _context.Exercicios.Update(model);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+
+        }
+
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {
