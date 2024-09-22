@@ -37,22 +37,29 @@ namespace shape_app.Controllers
 
             return CreatedAtAction("GetById", new {id = model.Id}, model);
         }
+
         [HttpGet("{id}")]
         public async Task<ActionResult> GetById(int id)
         {
             var model = await _context.Exercicios
                 .FirstOrDefaultAsync(c => c.Id == id);
 
-            if (model == null) NotFound();
+            if (model == null)
+            {
+                return NotFound();
+            }
+
 
             return Ok(model);
         }
+
         [HttpPut("{id}")]
         public async Task<ActionResult> Update(int id, Exercicio model)
         {
             if (id != model.Id) return BadRequest();
 
-            var modeloDb = _context.Exercicios
+            var modeloDb = await _context.Exercicios
+                .AsNoTracking()
                 .FirstOrDefaultAsync(c => c.Id == id);
 
             if (modeloDb == null) return NotFound();
@@ -70,9 +77,8 @@ namespace shape_app.Controllers
             var model = await _context.Exercicios
                 .FirstOrDefaultAsync(c => c.Id == id);
 
-            if (model == null) { 
-                NotFound();
-                return Ok("Exercício não encontrado");
+            if (model == null) {                 
+                return NotFound();
             };
 
             _context.Exercicios.Remove(model);
