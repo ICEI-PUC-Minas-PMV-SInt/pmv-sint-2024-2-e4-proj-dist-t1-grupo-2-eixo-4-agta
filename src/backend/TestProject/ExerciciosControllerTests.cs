@@ -5,182 +5,190 @@ using shape_app.Controllers;
 using shape_app.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Net;
 
 namespace shape_app.Tests
 {
     public class ExerciciosControllerTests
     {
-        private ExerciciosController _controller;
-        private AppDbContext _context;
+        private ExerciciosController _exerciciosController;
+        private AppDbContext _appDbContext;
 
         [SetUp]
         public void Setup()
         {
-            var options = new DbContextOptionsBuilder<AppDbContext>()
-                .UseInMemoryDatabase("TestDatabase")
+            var dbContextOptions = new DbContextOptionsBuilder<AppDbContext>()
+                .UseInMemoryDatabase(Guid.NewGuid().ToString())
                 .Options;
 
-            _context = new AppDbContext(options);
-            _controller = new ExerciciosController(_context);
+            _appDbContext = new AppDbContext(dbContextOptions);
+            _exerciciosController = new ExerciciosController(_appDbContext);
         }
 
-        [Test]
-        public async Task GetAll_ReturnsOkResult_WithListOfExercicios()
-        {
-            // Arrange
-            var exercicios = new List<Exercicio>
-            {
-                new Exercicio { Id = 1, Nome = "Exercício 1" ,Series = 3, Repeticoes = 10 },
-                new Exercicio { Id = 2, Nome = "Exercício 2" ,Series = 4, Repeticoes = 15 }
-            };
+        [TearDown]
+        public void Teardown()
+		{
+			_appDbContext.Dispose();
+		}
 
-            _context.Exercicios.AddRange(exercicios);
-            await _context.SaveChangesAsync();
+        [Test]
+        public async Task ExerciciosController_GetAll_RetornaVazio_QuandoNaoTemDados()
+        {
+            var result = await _exerciciosController.GetAll();
+
+			Assert.That((HttpStatusCode)((OkObjectResult)result).StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.IsInstanceOf<OkObjectResult>(result);
+            Assert.IsInstanceOf<List<Exercicio>>(((OkObjectResult)result).Value);
+            Assert.AreEqual(0, ((List<Exercicio>)((OkObjectResult)result).Value).Count);
+        }
+
+		[Test]
+		public async Task ExerciciosController_GetAll_Exercicios_QuandoExisteExerciciosCadastrados()
+		{
+            // Arrange
+            var listaExercicios = new List<Exercicio>
+			{
+				new Exercicio { Nome = "Supino", Series = 3, Repeticoes = 10 },
+				new Exercicio { Nome = "Agachamento", Series = 4, Repeticoes = 12 },
+                new Exercicio { Nome = "Rosca direta", Series = 3, Repeticoes = 10 }
+			};
+            await _appDbContext.Exercicios.AddRangeAsync(listaExercicios);
+            await _appDbContext.SaveChangesAsync();
 
             // Act
-            var result = await _controller.GetAll();
+			var result = await _exerciciosController.GetAll();
 
             // Assert
-            var okResult = result as OkObjectResult;
-            Assert.IsNotNull(okResult, "Expected OkObjectResult but got null");
-            Assert.That(okResult.StatusCode, Is.EqualTo(200));
-            Assert.That(((List<Exercicio>)okResult.Value!).Count, Is.EqualTo(2));
-        }
-
-        [Test]
-        public async Task Create_ValidExercicio_ReturnsCreatedAtActionResult()
-        {
-            // Arrange
-            var novoExercicio = new Exercicio { Id = 1, Nome = "Exercício 1", Series = 3, Repeticoes = 10 };
-
-            // Act
-            var result = await _controller.Create(novoExercicio);
-
-            // Assert
-            var createdResult = result as CreatedAtActionResult;
-            Assert.IsNotNull(createdResult, "Expected CreatedAtActionResult but got null");
-            Assert.That(createdResult.StatusCode, Is.EqualTo(201));
-        }
-
-        [Test]
-        public async Task GetById_ExistingId_ReturnsOkResult_WithExercicio()
-        {
-            // Arrange
-            var options = new DbContextOptionsBuilder<AppDbContext>()
-                .UseInMemoryDatabase(Guid.NewGuid().ToString()) 
-                .Options;
-
-            using (var context = new AppDbContext(options))
-            {
-                var exercicio = new Exercicio { Id = 1, Nome = "Exercício 1", Series = 3, Repeticoes = 10 };
-                context.Exercicios.Add(exercicio);
-                await context.SaveChangesAsync();
-            }
-
-            // Act
-            using (var context = new AppDbContext(options)) 
-            {
-                var controller = new ExerciciosController(context);
-                var result = await controller.GetById(1);
-
-                // Assert
-                var okResult = result as OkObjectResult;
-                Assert.IsNotNull(okResult);
-                Assert.AreEqual(200, okResult.StatusCode);
-                Assert.IsInstanceOf<Exercicio>(okResult.Value);
-                var returnedExercicio = okResult.Value as Exercicio;
-                Assert.AreEqual(1, returnedExercicio.Id);
-                Assert.AreEqual("Exercício 1", returnedExercicio.Nome);
-            }
-        }
+			Assert.That((HttpStatusCode)((OkObjectResult)result).StatusCode, Is.EqualTo(HttpStatusCode.OK));
+			Assert.IsInstanceOf<OkObjectResult>(result);
+			Assert.IsInstanceOf<List<Exercicio>>(((OkObjectResult)result).Value);
+			Assert.AreEqual(listaExercicios.Count, ((List<Exercicio>)((OkObjectResult)result).Value).Count);
+		}
 
 
         [Test]
-        public async Task GetById_NonExistingId_ReturnsNotFound()
-        {
-            // Arrange
-            var options = new DbContextOptionsBuilder<AppDbContext>()
-                .UseInMemoryDatabase(Guid.NewGuid().ToString()) 
-                .Options;
+		public async Task ExerciciosController_Create_RetornaBadRequest_QuandoSeriesMenorOuIgualAZero()
+		{
+			var exercicio = new Exercicio { Nome = "Supino", Series = 0, Repeticoes = 10 };
 
-            using (var context = new AppDbContext(options))
-            {
-            }
+			var result = await _exerciciosController.Create(exercicio);
 
-            // Act
-            using (var context = new AppDbContext(options))
-            {
-                var controller = new ExerciciosController(context);
-                var result = await controller.GetById(99); 
+			Assert.That((HttpStatusCode)((BadRequestObjectResult)result).StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+			Assert.IsInstanceOf<BadRequestObjectResult>(result);
+			Assert.IsInstanceOf<ProblemDetails>(((BadRequestObjectResult)result).Value);
+			Assert.AreEqual("As séries ou repetições devem ser maiores que 0.", ((ProblemDetails)((BadRequestObjectResult)result).Value).Detail);
+		}
 
-                // Assert
-                Assert.IsInstanceOf<NotFoundResult>(result);
-            }
-        }
+		[Test]
+		public async Task ExerciciosController_Create_RetornaBadRequest_QuandoRepeticoesMenorOuIgualAZero()
+		{
+			var exercicio = new Exercicio { Nome = "Supino", Series = 3, Repeticoes = 0 };
 
+			var result = await _exerciciosController.Create(exercicio);
 
-        [Test]
-        public async Task Update_ValidExercicio_ReturnsNoContent()
-        {
-            // Arrange
-            var exercicioExistente = new Exercicio { Id = 1, Nome = "Exercício 1", Series = 3, Repeticoes = 10 };
-            var exercicios = new List<Exercicio> { exercicioExistente };
+			Assert.That((HttpStatusCode)((BadRequestObjectResult)result).StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+			Assert.IsInstanceOf<BadRequestObjectResult>(result);
+			Assert.IsInstanceOf<ProblemDetails>(((BadRequestObjectResult)result).Value);
+			Assert.AreEqual("As séries ou repetições devem ser maiores que 0.", ((ProblemDetails)((BadRequestObjectResult)result).Value).Detail);
+		}
 
-            var updatedExercicio = new Exercicio { Id = 1, Nome = "Exercício 1", Series = 4, Repeticoes = 12 };
+		[Test]
+		public async Task ExerciciosController_Create_RetornaCreated_QuandoExercicioCriadoComSucesso()
+		{
+			var exercicio = new Exercicio { Nome = "Supino", Series = 3, Repeticoes = 10 };
 
-            // Act
-            var result = await _controller.Update(1, updatedExercicio);
+			var result = await _exerciciosController.Create(exercicio);
 
-            // Assert
-            Assert.IsInstanceOf<NoContentResult>(result);
-        }
+			var exerciciosCriados = await _appDbContext.Exercicios.ToListAsync();
 
-        [Test]
-        public async Task Update_NonMatchingId_ReturnsBadRequest()
-        {
-            // Arrange
-            var exercicioExistente = new Exercicio { Id = 1, Nome = "Exercício 1", Series = 3, Repeticoes = 10 };
-            var exercicios = new List<Exercicio> { exercicioExistente };
+			Assert.AreEqual(1, exerciciosCriados.Count);
 
-            var updatedExercicio = new Exercicio { Id = 2, Nome = "Exercício 2", Series = 4, Repeticoes = 12 }; 
+			Assert.That((HttpStatusCode)((CreatedAtActionResult)result).StatusCode, Is.EqualTo(HttpStatusCode.Created));
+			Assert.IsInstanceOf<CreatedAtActionResult>(result);
+			Assert.AreEqual("GetById", ((CreatedAtActionResult)result).ActionName);
+			Assert.AreEqual(exercicio.Id, ((Exercicio)((CreatedAtActionResult)result).Value).Id);
+		}
+		[Test]
+		public async Task ExerciciosController_GetById_RetornaNotFound_QuandoExercicioNaoExiste()
+		{
+			var result = await _exerciciosController.GetById(1);
 
-            // Act
-            var result = await _controller.Update(1, updatedExercicio);
+			Assert.That((HttpStatusCode)((NotFoundResult)result).StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
+			Assert.IsInstanceOf<NotFoundResult>(result);
+		}
+		[Test]
+		public async Task ExerciciosController_GetById_RetornaExercicio_QuandoExercicioExiste()
+		{
+			var exercicio = new Exercicio { Nome = "Supino", Series = 3, Repeticoes = 10 };
+			await _appDbContext.Exercicios.AddAsync(exercicio);
+			await _appDbContext.SaveChangesAsync();
 
-            // Assert
-            Assert.IsInstanceOf<BadRequestResult>(result);
-        }
+			var result = await _exerciciosController.GetById(exercicio.Id);
 
-        [Test]
-        public async Task Delete_ExistingId_ReturnsOk()
-        {
-            // Arrange
-            var exercicioExistente = new Exercicio { Id = 1, Series = 3, Repeticoes = 10 };
-            var exercicios = new List<Exercicio> { exercicioExistente };;
+			Assert.That((HttpStatusCode)((OkObjectResult)result).StatusCode, Is.EqualTo(HttpStatusCode.OK));
+			Assert.IsInstanceOf<OkObjectResult>(result);
+			Assert.IsInstanceOf<Exercicio>(((OkObjectResult)result).Value);
+			Assert.AreEqual(exercicio.Id, ((Exercicio)((OkObjectResult)result).Value).Id);
+		}
+		[Test]
+		public async Task ExerciciosController_Update_RetornaBadRequest_QuandoIdDiferenteDoModel()
+		{
+			var exercicio = new Exercicio { Id = 1, Nome = "Supino", Series = 3, Repeticoes = 10 };
 
-            // Act
-            var result = await _controller.Delete(1);
+			var result = await _exerciciosController.Update(2, exercicio);
 
-            // Assert
-            var okResult = result as OkObjectResult;
-            Assert.IsNotNull(okResult, "Expected OkObjectResult but got null");
-            Assert.That(okResult.StatusCode, Is.EqualTo(200));
-        }
+			Assert.That((HttpStatusCode)((BadRequestResult)result).StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+			Assert.IsInstanceOf<BadRequestResult>(result);
+		}
+		[Test]
+		public async Task ExerciciosController_Update_RetornaNotFound_QuandoExercicioNaoExiste()
+		{
+			var exercicio = new Exercicio { Id = 1, Nome = "Supino", Series = 3, Repeticoes = 10 };
 
-        [Test]
-        public async Task Delete_NonExistingId_ReturnsNotFound()
-        {
-            // Arrange
-            var exercicios = new List<Exercicio>(); 
+			var result = await _exerciciosController.Update(1, exercicio);
 
-            // Act
-            var result = await _controller.Delete(1);
+			Assert.That((HttpStatusCode)((NotFoundResult)result).StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
+			Assert.IsInstanceOf<NotFoundResult>(result);
+		}
+		[Test]
+		public async Task ExerciciosController_Update_RetornaNoContent_QuandoExercicioAtualizadoComSucesso()
+		{
+			var exercicio = new Exercicio { Id = 1, Nome = "Supino", Series = 3, Repeticoes = 10 };
+			await _appDbContext.Exercicios.AddAsync(exercicio);
+			await _appDbContext.SaveChangesAsync();
 
-            // Assert
-            Assert.IsInstanceOf<NotFoundResult>(result);
-        }
+			exercicio.Nome = "Supino Inclinado";
 
+			var result = await _exerciciosController.Update(1, exercicio);
 
+			var exercicioAtualizado = await _appDbContext.Exercicios.FindAsync(exercicio.Id);
 
-    }
+			Assert.That((HttpStatusCode)((NoContentResult)result).StatusCode, Is.EqualTo(HttpStatusCode.NoContent));
+			Assert.IsInstanceOf<NoContentResult>(result);
+			Assert.AreEqual("Supino Inclinado", exercicioAtualizado.Nome);
+		}
+		[Test]
+		public async Task ExerciciosController_Delete_RetornaNotFound_QuandoExercicioNaoExiste()
+		{
+			var result = await _exerciciosController.Delete(1);
+
+			Assert.That((HttpStatusCode)((NotFoundResult)result).StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
+			Assert.IsInstanceOf<NotFoundResult>(result);
+		}
+		[Test]
+		public async Task ExerciciosController_Delete_RetornaNoContent_QuandoExercicioExcluidoComSucesso()
+		{
+			var exercicio = new Exercicio { Id = 1, Nome = "Supino", Series = 3, Repeticoes = 10 };
+			await _appDbContext.Exercicios.AddAsync(exercicio);
+			await _appDbContext.SaveChangesAsync();
+
+			var result = await _exerciciosController.Delete(1);
+
+			var exercicioExcluido = await _appDbContext.Exercicios.FindAsync(exercicio.Id);
+
+			Assert.That((HttpStatusCode)((OkObjectResult)result).StatusCode, Is.EqualTo(HttpStatusCode.OK));
+			Assert.IsInstanceOf<OkObjectResult>(result);
+			Assert.IsNull(exercicioExcluido);
+		}
+	}
 }

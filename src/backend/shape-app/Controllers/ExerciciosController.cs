@@ -29,7 +29,7 @@ namespace shape_app.Controllers
         {
             if(model.Series <= 0 || model.Repeticoes <= 0)
             {
-                return BadRequest(new {message = "As séries ou repetições devem ser maiores que 0."});
+                return BadRequest(new ProblemDetails { Detail = "As séries ou repetições devem ser maiores que 0."});
             }
 
             _context.Exercicios.Add(model);
