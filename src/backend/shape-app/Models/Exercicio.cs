@@ -15,5 +15,7 @@ namespace shape_app.Models
         [Required]
         [Display(Name = "Repetições")]
         public int Repeticoes { get; set; }
+
+        public ICollection<TreinoExercicio> Treinos { get; set; }
     }
 }
