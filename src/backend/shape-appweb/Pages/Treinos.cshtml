@@ -1,0 +1,55 @@
+﻿@page
+@model shape_appweb.Pages.TreinosModel
+<div>
+	<hi>Meus Treinos</hi>
+
+</div>
+<div>
+	<button class="btn btn-success" onclick="window.location.href = '/CreateTreino'">Adicionar Treino</button>
+</div>
+
+<table class="table">
+	<thead>
+		<tr>
+			<th scope="col"></th>
+			<th scope="col">Nome</th>
+			<th scope="col">Data</th>
+			<th scope="col"></th>
+			<th scope="col"></th>
+			<th scope="col"></th>
+
+		</tr>
+	</thead>
+	<tbody id="treinos">
+	</tbody>
+</table>
+
+
+<script>
+	async function buscarTreinos() {
+		const response = await fetch('https://localhost:7219/api/Treinos');
+		const data = await response.json();
+		console.log(data);
+
+		parent = document.getElementById('treinos');
+
+		for (let i = 0; i < data.length; i++) {
+			const treino = data[i];
+			const li = document.createElement('tr');
+
+			li.innerHTML = `
+					<td>${treino.id}</td>
+					<td>${treino.nome}</td>
+					<td>${treino.data}</td>
+					<td><button class="btn btn-primary" onclick="window.location.href = '/Exercicio'">Adicionar</button></td>
+					<td><button class="btn btn-info" onclick="window.location.href = '/EditTreino'">Editar</button></td>
+					<td><button class="btn btn-danger" onclick="window.location.href = '/DeleteTreino'">Apagar</button></td>
+				`;
+
+			parent.appendChild(tr);
+		}
+	}
+
+	window.onload = buscarTreinos;
+</script>
+

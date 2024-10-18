@@ -1,0 +1,73 @@
+﻿@page
+@model shape_appweb.Pages.EditExercicioModel
+
+@{
+	var id = Request.Query["id"];
+}
+
+
+<hi>Editar Exercício</hi>
+<div class="container mb-3">
+	<form id="exercicio-form" onsubmit="event.preventDefault(); saveExercicio()">
+		<input type="hidden" id="exercicio-id">
+		<div class="mb-3">
+			<label for="nome" class="form-label">Nome</label>
+			<input type="text" class="form-control" id="nome" name="nome">
+		</div>
+		<div class="mb-3">
+			<label for="series" class="form-label">Series</label>
+			<input type="number" class="form-control" id="series" name="series">
+		</div>
+		<div class="mb-3">
+			<label for="repeticoes" class="form-label">Repetições</label>
+			<input type="number" class="form-control" id="repeticoes" name="repeticoes">
+		</div>
+		<button type="submit" class="btn btn-primary">Editar</button>
+	</form>
+</div>
+
+<script>
+	async function buscarExercicios() {
+		var id = '@id';
+
+		console.log(id);
+
+		response = await fetch(`https://localhost:7219/api/Exercicios/${id}`);
+		exercicio = await response.json();
+
+		console.log(exercicio);
+
+		document.getElementById('exercicio-id').value = exercicio.id;
+		document.getElementById('nome').value = exercicio.nome;
+		document.getElementById('series').value = exercicio.series;
+		document.getElementById('repeticoes').value = exercicio.repeticoes;
+	}
+
+	window.onload = buscarExercicios;
+
+
+	async function saveExercicio() {
+		var id = '@id';
+
+		console.log(id);
+
+		const exercicio = {
+			id: id,
+			nome: document.getElementById('nome').value,
+			series: document.getElementById('series').value,
+			repeticoes: document.getElementById('repeticoes').value
+		};
+
+		const response = await fetch(`https://localhost:7219/api/Exercicios/${id}`, {
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(exercicio)
+		});
+
+		if (response.ok) {
+			window.location.href = '/Exercicios';
+		}
+	}
+</script>

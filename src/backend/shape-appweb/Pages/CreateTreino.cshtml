@@ -1,0 +1,43 @@
+﻿@page
+@model shape_appweb.Pages.CreateTreinoModel
+
+<div class="container mb-3">
+	<h1>Adicionar Treino</h1>
+	<form id="treino-form" onsubmit="event.preventDefault(); saveTreino()">
+		<input type="hidden" id="treino-id">
+		<div class="mb-3">
+			<label for="nome" class="form-label">Nome</label>
+			<input type="text" class="form-control" id="nome" name="nome">
+		</div>
+		<div class="mb-3">
+			<label for="data" class="form-label">Data</label>
+			<input type="number" class="form-control" id="data" name="data">
+		</div>
+		
+		<button type="submit" class="btn btn-primary">Adicionar</button>
+	</form>
+</div>
+
+<script>
+	async function saveTreino() {
+		const treino = {
+			nome: document.getElementById('nome').value,
+			data: document.getElementById('data').value,
+			
+		};
+
+		console.log(treino);
+
+		const response = await fetch('https://localhost:7219/api/Treinos', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(treino)
+		});
+		if (response.ok) {
+			window.location.href = '/Treinos';
+		}
+	}
+</script>
+

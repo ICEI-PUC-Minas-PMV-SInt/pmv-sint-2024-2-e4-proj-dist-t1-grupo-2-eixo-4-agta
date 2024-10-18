@@ -5,7 +5,9 @@ VisualStudioVersion = 17.9.34723.18
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "shape-app", "shape-app.csproj", "{E74FA206-69C0-4563-B86C-C6A984209E04}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestProject", "..\TestProject\TestProject.csproj", "{4D1C0A42-7077-48B2-996B-D437694E1ECA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestProject", "..\TestProject\TestProject.csproj", "{4D1C0A42-7077-48B2-996B-D437694E1ECA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "shape-appweb", "..\shape-appweb\shape-appweb.csproj", "{7C91FE21-5B58-4722-9C3D-6E08A4BE64D5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{4D1C0A42-7077-48B2-996B-D437694E1ECA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4D1C0A42-7077-48B2-996B-D437694E1ECA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4D1C0A42-7077-48B2-996B-D437694E1ECA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C91FE21-5B58-4722-9C3D-6E08A4BE64D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C91FE21-5B58-4722-9C3D-6E08A4BE64D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C91FE21-5B58-4722-9C3D-6E08A4BE64D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C91FE21-5B58-4722-9C3D-6E08A4BE64D5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
