@@ -6,7 +6,7 @@
 
 <hi>Remover Treino</hi>
 <div class="container mb-3">
-	<form id="treino-form" onsubmit="event.preventDefault(); saveTreino()">
+	<form id="treino-form" onsubmit="event.preventDefault(); deleteTreino()">
 		<input type="hidden" id="treino-id">
 		<div class="mb-3">
 			<label for="nome" class="form-label">Nome</label>
@@ -14,10 +14,10 @@
 		</div>
 		<div class="mb-3">
 			<label for="data" class="form-label">Data</label>
-			<input type="number" class="form-control" id="data" name="data">
+			<input type="date" class="form-control" id="data" name="data">
 		</div>
 
-		<button type="submit" class="btn btn-primary">Adicionar</button>
+		<button type="submit" class="btn btn-primary">Remover</button>
 	</form>
 </div>
 
@@ -28,13 +28,13 @@
 		console.log(id);
 
 		response = await fetch(`https://localhost:7219/api/Treinos/${id}`);
-		exercicio = await response.json();
+		treino = await response.json();
 
 		console.log(treino);
 
 		document.getElementById('treino-id').value = treino.id;
 		document.getElementById('nome').value = treino.nome;
-		document.getElementById('data').value = treino.data;
+		document.getElementById('data').value = new Date(treino.data).toISOString().split('T')[0];
 		
 	}
 

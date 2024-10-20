@@ -37,16 +37,18 @@
 			const treino = data[i];
 			const li = document.createElement('tr');
 
+			treinoData = new Date(treino.data).toISOString().split('T')[0];
+
 			li.innerHTML = `
 					<td>${treino.id}</td>
 					<td>${treino.nome}</td>
-					<td>${treino.data}</td>
-					<td><button class="btn btn-primary" onclick="window.location.href = '/Exercicio'">Adicionar</button></td>
-					<td><button class="btn btn-info" onclick="window.location.href = '/EditTreino'">Editar</button></td>
-					<td><button class="btn btn-danger" onclick="window.location.href = '/DeleteTreino'">Apagar</button></td>
+						<td>${treinoData}</td>
+					<td><button class="btn btn-primary" onclick="window.location.href = '/Exercicios'">Adicionar</button></td>
+					<td><button class="btn btn-info" onclick="window.location.href = '/EditTreino?id=${treino.id}'">Editar</button></td>
+					<td><button class="btn btn-danger" onclick="window.location.href = '/DeleteTreino?id=${treino.id}'">Apagar</button></td>
 				`;
 
-			parent.appendChild(tr);
+			parent.appendChild(li);
 		}
 	}
 
