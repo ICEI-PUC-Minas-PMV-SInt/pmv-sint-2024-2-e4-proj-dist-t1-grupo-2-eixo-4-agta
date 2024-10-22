@@ -89,19 +89,22 @@ namespace shape_app.Controllers
 
 
 
-        [HttpPost("{id}/exercicios")]
-        public async Task<IActionResult> AddExercicio(int id, TreinoExercicio model)
+        [HttpPost("{treinoId}/exercicios/{exercicioId}")]
+        public async Task<IActionResult> AddExercicio(int treinoId, int exercicioId)
         {
-            if(id != model.TreinoId) return BadRequest();
+            var treino = await _context.Treinos
+                .Where(c => c.Id == treinoId)
+                .FirstOrDefaultAsync();
 
-            _context.TreinoExercicios.Add(model);
+            if (treino == null) return NotFound();
+
+
+            treino.Exercicios.Add(new TreinoExercicio { TreinoId = treinoId, ExercicioId = exercicioId });
+
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetById", new { id = model.TreinoId }, model);
+            return NoContent();
         }
-
-
-
 
 
 

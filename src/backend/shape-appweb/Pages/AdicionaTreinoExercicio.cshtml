@@ -1,0 +1,82 @@
+﻿@page
+@model shape_appweb.Pages.AdicionaTreinoExercicioModel
+@{
+    var id = Request.Query["id"];
+}
+<div>
+    <hi> Lista de Exercícios</hi>
+
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col"></th>
+            <th scope="col">Nome</th>
+            <th scope="col">Series</th>
+            <th scope="col">Repetições</th>
+            <th scope="col"></th>
+
+        </tr>
+    </thead>
+    <tbody id="exercicios">
+    </tbody>
+</table>
+<script>
+    async function buscarExercicios() {
+        var id = '@id';
+
+        console.log(id);
+
+        response = await fetch(`https://localhost:7219/api/Exercicios`);
+        const data = await response.json()
+        console.log(data);
+
+        parent = document.getElementById('exercicios');
+
+        for (let i = 0; i < data.length; i++) {
+            const exercicio = data[i];
+            const li = document.createElement('tr');
+            li.innerHTML = `
+                            <td>${exercicio.id}</td>
+                            <td>${exercicio.nome}</td>
+                            <td>${exercicio.series}</td>
+                            <td>${exercicio.repeticoes}</td>
+                        <td>
+                                <button class="btn btn-success" onclick=" adicionarExercicio(${exercicio.id})">Adicionar</button>
+                        </td>
+                    `;
+
+            parent.appendChild(li);
+        }
+    }
+
+    async function adicionarExercicio(exercicioId) {
+        var id = '@id';
+        console.log(id);
+
+        response = await fetch(`https://localhost:7219/api/Treinos/${id}`);
+        const treino = await response.json()
+
+        treino.exercicios.push({
+            treinoId: id,
+            exercicioId: exercicioId
+        });
+
+        console.log(treino)
+        console.log(JSON.stringify(treino))
+
+        response = await fetch(`https://localhost:7219/api/Treinos/${id}/exercicios/${exercicioId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        if (response.ok) {
+            window.location.href = '/TreinoExercicios?id=' + id;
+        }
+    }
+
+
+    window.onload = buscarExercicios;
+
+</script>

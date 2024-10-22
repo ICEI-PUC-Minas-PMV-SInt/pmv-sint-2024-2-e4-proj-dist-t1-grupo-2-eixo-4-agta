@@ -13,7 +13,7 @@ namespace shape_app.Models
         [Required]
         public DateTime Data { get; set; }
 
-        public ICollection<TreinoExercicio> Exercicios { get; set; }
+        public ICollection<TreinoExercicio> Exercicios { get; set; } = [];
 
     }
 }

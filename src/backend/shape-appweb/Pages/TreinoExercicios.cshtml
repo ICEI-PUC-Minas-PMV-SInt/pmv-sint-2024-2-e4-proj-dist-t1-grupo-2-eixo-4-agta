@@ -1,0 +1,85 @@
+﻿@page
+@model shape_appweb.Pages.TreinoExerciciosModel
+@{
+    var id = Request.Query["id"];
+}
+<div>
+    <hi> Lista de Exercícios</hi>
+
+</div>
+<div>
+    <button class="btn btn-success" onclick="window.location.href = '/AdicionaTreinoExercicio?id=@id'">Adicionar Exercício</button>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col"></th>
+            <th scope="col">Nome</th>
+            <th scope="col">Series</th>
+            <th scope="col">Repetições</th>
+            <th scope="col"></th>
+
+        </tr>
+    </thead>
+    <tbody id="exercicios">
+    </tbody>
+</table>
+<script>
+    async function buscarExercicios() {
+        var id = '@id';
+
+        console.log(id);
+
+        response = await fetch(`https://localhost:7219/api/Treinos/${id}`);
+        const data = await response.json()
+        console.log(data);
+
+        parent = document.getElementById('exercicios');
+
+        for (let i = 0; i < data.exercicios.length; i++) {
+            const treinoExercicio = data.exercicios[i];
+            const li = document.createElement('tr');
+            li.innerHTML = `
+                        <td>${treinoExercicio.exercicio.id}</td>
+                        <td>${treinoExercicio.exercicio.nome}</td>
+                        <td>${treinoExercicio.exercicio.series}</td>
+                        <td>${treinoExercicio.exercicio.repeticoes}</td>
+                    <td>
+                            <button class="btn btn-danger" onclick="deletaExericio(${treinoExercicio.exercicio.id})">Remover</button>
+                    </td>
+                `;
+
+            parent.appendChild(li);
+        }
+    }
+
+    async function deletaExericio(exercicioId) {
+        var id = '@id';
+        console.log(id);
+        response = await fetch (`https://localhost:7219/api/Treinos/${id}`);
+        const treino = await response.json()
+
+        treino.exercicios.push({
+            treinoId: id,
+            exercicioId: exercicioId
+        });
+
+        console.log(treino)
+        console.log(JSON.stringify(treino))
+
+        response = await fetch(`https://localhost:7219/api/Treinos/${id}/exercicios/${exercicioId}`, {
+            method: 'DELETE'
+        });
+        if (response.ok) {
+           window.location.href = '/TreinoExercicios?id=@id';
+        }
+
+    }
+
+
+
+    window.onload = buscarExercicios;
+
+</script>
+
