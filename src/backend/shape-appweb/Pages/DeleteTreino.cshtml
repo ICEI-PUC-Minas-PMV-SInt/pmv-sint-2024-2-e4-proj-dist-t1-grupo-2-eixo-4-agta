@@ -3,8 +3,9 @@
 @{
 	var id = Request.Query["id"];
 }
-
-<hi>Remover Treino</hi>
+<div class="topoPadraoPags">
+<h1>Remover Treino</h1>
+</div>
 <div class="container mb-3">
 	<form id="treino-form" onsubmit="event.preventDefault(); deleteTreino()">
 		<input type="hidden" id="treino-id">
@@ -17,7 +18,7 @@
 			<input type="date" class="form-control" id="data" name="data">
 		</div>
 
-		<button type="submit" class="btn btn-primary">Remover</button>
+		<button type="submit" class="btn btn-danger">Remover</button>
 	</form>
 </div>
 

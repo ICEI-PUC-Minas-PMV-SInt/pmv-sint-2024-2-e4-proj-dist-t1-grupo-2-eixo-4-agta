@@ -3,15 +3,13 @@
 @{
     var id = Request.Query["id"];
 }
-<div>
-    <hi> Lista de Exercícios</hi>
-
-</div>
-<div>
+<div class="topoPadraoPags">
+    <h1> Lista de Exercícios</h1>
     <button class="btn btn-success" onclick="window.location.href = '/AdicionaTreinoExercicio?id=@id'">Adicionar Exercício</button>
+
 </div>
 
-<table class="table">
+<table class="table container">
     <thead>
         <tr>
             <th scope="col"></th>

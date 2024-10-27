@@ -10,40 +10,47 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-page="/Index">Shape App</a>
+        <nav class="fundoMenu">
+
+            <div class="container fundoMenuContainer">
+
+                <a class="navbar-brand" asp-area="" asp-page="/Index">
+
+                    
+                    <img width="120px" src="~/img/logo-shapeapp-menu.png"/>
+
+                    </a>
+
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
+
+
+                    <ul class="menuTopo">
+
+                        <li class="itemMenu">
+                            <a class="" asp-area="" asp-page="/Index">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Exercicios">Exercícios</a>
+
+                        <li class="itemMenu">
+                            <a class="" asp-area="" asp-page="/Treinos">Meus Treinos</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Treinos">Meus Treinos</a>
+
+                        <li class="itemMenu">
+                            <a class="" asp-area="" asp-page="/Exercicios">Exercícios</a>
                         </li>
+
                     </ul>
-                </div>
+
             </div>
         </nav>
     </header>
-    <div class="container">
+    <div>
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2024 - shape_appweb - <a asp-area="" asp-page="/Privacy">Privacy</a>
-        </div>
-    </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
