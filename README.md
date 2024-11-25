@@ -1,6 +1,9 @@
 
 # SHAPE APP
 
+Link de acesso da aplicação:
+https://shapeappweb.azurewebsites.net/
+
 # Visão do Produto
 
  Para pessoas que desejam obter uma rotina de treinos personalizada, mas não podem pagar por um personal trainer ou não se sentam à vontade com um instrutor de academia. O ShapeApp é um aplicativo que oferece um lista de exercícios que podem ser atualizados e personalizados para cada usuário. Diferentemente de outras opções do mercado, o nosso produto é uma ferramenta de fácil acesso que otimiza a rotina de treinamentos de forma inteligente e adaptável ao desenvolvimento de cada usuário.
