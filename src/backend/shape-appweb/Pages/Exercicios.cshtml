@@ -30,7 +30,7 @@
 
 <script>
 	async function buscarExercicios() {
-		const response = await fetch('https://localhost:7219/api/Exercicios');
+		const response = await fetch('https://shapeappapi.azurewebsites.net/api/Exercicios');
 		const data = await response.json();
 		console.log(data);
 

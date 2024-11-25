@@ -29,7 +29,7 @@
 
         console.log(id);
 
-        response = await fetch(`https://localhost:7219/api/Treinos/${id}`);
+        response = await fetch(`https://shapeappapi.azurewebsites.net/api/Treinos/${id}`);
         const data = await response.json()
         console.log(data);
 
@@ -55,7 +55,7 @@
     async function deletaExericio(exercicioId) {
         var id = '@id';
         console.log(id);
-        response = await fetch (`https://localhost:7219/api/Treinos/${id}`);
+        response = await fetch (`https://shapeappapi.azurewebsites.net/api/Treinos/${id}`);
         const treino = await response.json()
 
         treino.exercicios.push({
@@ -66,7 +66,7 @@
         console.log(treino)
         console.log(JSON.stringify(treino))
 
-        response = await fetch(`https://localhost:7219/api/Treinos/${id}/exercicios/${exercicioId}`, {
+        response = await fetch(`https://shapeappapi.azurewebsites.net/api/Treinos/${id}/exercicios/${exercicioId}`, {
             method: 'DELETE'
         });
         if (response.ok) {

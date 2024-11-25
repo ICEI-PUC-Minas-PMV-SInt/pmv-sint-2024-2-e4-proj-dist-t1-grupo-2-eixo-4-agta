@@ -27,7 +27,7 @@
 
         console.log(id);
 
-        response = await fetch(`https://localhost:7219/api/Exercicios`);
+        response = await fetch(`https://shapeappapi.azurewebsites.net/api/Exercicios`);
         const data = await response.json()
         console.log(data);
 
@@ -54,7 +54,7 @@
         var id = '@id';
         console.log(id);
 
-        response = await fetch(`https://localhost:7219/api/Treinos/${id}`);
+        response = await fetch(`https://shapeappapi.azurewebsites.net/api/Treinos/${id}`);
         const treino = await response.json()
 
         treino.exercicios.push({
@@ -65,7 +65,7 @@
         console.log(treino)
         console.log(JSON.stringify(treino))
 
-        response = await fetch(`https://localhost:7219/api/Treinos/${id}/exercicios/${exercicioId}`, {
+        response = await fetch(`https://shapeappapi.azurewebsites.net/api/Treinos/${id}/exercicios/${exercicioId}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
