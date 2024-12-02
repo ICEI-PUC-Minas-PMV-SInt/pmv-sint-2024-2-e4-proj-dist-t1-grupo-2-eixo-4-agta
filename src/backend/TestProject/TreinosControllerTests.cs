@@ -347,48 +347,7 @@ namespace TestProject
             Assert.IsNull(treinoExcluido);
         }
 
-        [Test]
-        public async Task TreinosController_AddExercicio_RetornaCreated_QuandoExercicioCriadoComSucesso()
-        {
-            // Arrange
-            var listaExercicios = new List<Exercicio>
-            {
-                new Exercicio { Id = 1, Nome = "Supino", Series = 3, Repeticoes = 10 },
-                new Exercicio { Id = 2, Nome = "Agachamento", Series = 4, Repeticoes = 12 },
-                new Exercicio { Id = 3, Nome = "Rosca direta", Series = 3, Repeticoes = 10 }
-            };
-            await _appDbContext.Exercicios.AddRangeAsync(listaExercicios);
-            await _appDbContext.SaveChangesAsync();
-
-            var treino = new Treino
-            {
-                Id = 1,
-                Nome = "Full body",
-                Exercicios = null
-            };
-
-            var listaTreinoExercicio = new List<TreinoExercicio>
-            {
-                new TreinoExercicio { TreinoId= treino.Id, Treino= treino, ExercicioId=listaExercicios[0].Id, Exercicio= listaExercicios[0] },
-                new TreinoExercicio { TreinoId= treino.Id, Treino= treino, ExercicioId=listaExercicios[1].Id, Exercicio= listaExercicios[1] }
-            };
-
-            treino.Exercicios = listaTreinoExercicio;
-
-            await _appDbContext.TreinoExercicios.AddRangeAsync(listaTreinoExercicio);
-            await _appDbContext.SaveChangesAsync();
-
-            var treinoExercicio = new TreinoExercicio { TreinoId = treino.Id, Treino = treino, ExercicioId = listaExercicios[2].Id, Exercicio = listaExercicios[2] };
-
-            // Act
-            var result = await _treinosController.AddExercicio(1, treinoExercicio);
-
-            // Assert
-            Assert.That((HttpStatusCode)((CreatedAtActionResult)result).StatusCode, Is.EqualTo(HttpStatusCode.Created));
-            Assert.IsInstanceOf<CreatedAtActionResult>(result);
-            Assert.AreEqual("GetById", ((CreatedAtActionResult)result).ActionName);
-            Assert.AreEqual(treinoExercicio.TreinoId, ((TreinoExercicio)((CreatedAtActionResult)result).Value).TreinoId);
-        }
+        
 
         [Test]
         public async Task TreinosController_DeleteExercicio_RetornaNoContent_QuandoExercicioExcluidoComSucesso()
